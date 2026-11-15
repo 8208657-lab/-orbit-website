@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORBIT｜探索與創作</title>
+
+<style>
+:root {
+  --bg: #080d18;
+  --card: #141d2e;
+  --text: #f3f7ff;
+  --muted: #9caec6;
+  --accent: #72e6bc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans TC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+}
+
+body.light {
+  --bg: #f5f8fc;
+  --card: #ffffff;
+  --text: #182335;
+  --muted: #61718a;
+  --accent: #16876c;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px solid #66778844;
+  padding: 16px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+nav {
+  display: flex;
+  gap: 18px;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #07131a;
+  font-weight: bold;
+}
+
+section {
+  padding: 90px 8%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.hero {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.tag {
+  color: var(--accent);
+  letter-spacing: 3px;
+}
+
+h1 {
+  font-size: clamp(38px, 7vw, 76px);
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: 34px;
+}
+
+p {
+  color: var(--muted);
+}
+
+.planet {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 25%,
+    #d4ffe8,
+    #72e6bc 25%,
+    #238b87 55%,
+    #12264c 85%);
+  box-shadow:
+    0 0 60px #72e6bc55,
+    0 0 120px #72e6bc22;
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: var(--card);
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid #66778833;
+  transition: transform .3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+}
+
+.card h3 {
+  color: var(--accent);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #66778855;
+  background: var(--card);
+  color: var(--text);
+}
+
+textarea {
+  min-height: 130px;
+}
+
+footer {
+  text-align: center;
+  padding: 35px;
+  border-top: 1px solid #66778844;
+  color: var(--muted);
+}
+
+.menu-btn {
+  display: none;
+}
+
+@media(max-width: 700px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .planet {
+    width: 190px;
+    height: 190px;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    padding: 20px;
+    flex-direction: column;
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  section {
+    padding: 65px 7%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">◎ ORBIT</div>
+
+  <nav id="nav">
+    <a href="#home">首頁</a>
+    <a href="#about">關於</a>
+    <a href="#projects">作品</a>
+    <a href="#contact">聯絡</a>
+  </nav>
+
+  <div>
+    <button id="themeBtn">☀ / ☾</button>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </div>
+</header>
+
+<main>
+
+<section class="hero" id="home">
+  <div class="hero-text">
+    <div class="tag">A SPACE FOR IDEAS</div>
+
+    <h1>
+      讓每個想法，<br>
+      都有自己的軌道。
+    </h1>
+
+    <p>
+      這是一個關於探索、研究與創作的網站。
+      整理想法、分享作品，
+      讓新的可能慢慢發生。
+    </p>
+
+    <a href="#projects">
+      <button>探索作品 →</button>
+    </a>
+  </div>
+
+  <div class="planet"></div>
+</section>
+
+<section id="about">
+  <div class="tag">ABOUT</div>
+  <h2>從好奇心出發</h2>
+
+  <p>
+    ORBIT 是一個自由探索的空間。
+    在這裡，研究、創作與想像可以彼此連結。
+  </p>
+
+  <div class="cards">
+    <div class="card">
+      <h3>✦ 研究</h3>
+      <p>探索問題，尋找新的理解方式。</p>
+    </div>
+
+    <div class="card">
+      <h3>⌘ 創作</h3>
+      <p>把抽象的想法轉化為具體作品。</p>
+    </div>
+
+    <div class="card">
+      <h3>∞ 可能</h3>
+      <p>保持開放，讓不同領域相互連結。</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="tag">PROJECTS</div>
+  <h2>探索作品</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>01｜物理研究</h3>
+      <p>
+        從經典力學到現代物理，
+        探索自然世界的基本規律。
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>02｜數學探索</h3>
+      <p>
+        研究抽象結構，
+        尋找不同數學概念之間的關聯。
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>03｜創意專案</h3>
+      <p>
+        將想法轉化為實驗、
+        程式與互動作品。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact">
+  <div class="tag">CONTACT</div>
+  <h2>保持聯繫</h2>
+
+  <p>有任何想法，都歡迎留下訊息。</p>
+
+  <form id="contactForm">
+    <input id="name" placeholder="你的名字" required>
+    <input id="email" type="email" placeholder="電子郵件" required>
+    <textarea id="message" placeholder="想說的話" required></textarea>
+    <button type="submit">產生訊息</button>
+  </form>
+
+  <p id="result"></p>
+</section>
+
+</main>
+
+<footer>
+  © 2026 ORBIT — Stay curious.
+</footer>
+
+<script>
+const themeBtn = document.getElementById("themeBtn");
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
+
+themeBtn.addEventListener("click", function() {
+  document.body.classList.toggle("light");
+});
+
+menuBtn.addEventListener("click", function() {
+  nav.classList.toggle("open");
+});
+
+document.querySelectorAll("nav a").forEach(function(link) {
+  link.addEventListener("click", function() {
+    nav.classList.remove("open");
+  });
+});
+
+document.getElementById("contactForm")
+.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const message = document.getElementById("message").value;
+
+  const result = document.getElementById("result");
+
+  result.textContent =
+    "訊息已產生：" + name + "（" + email + "）：" + message;
+});
+</script>
+
+</body>
+</html>
