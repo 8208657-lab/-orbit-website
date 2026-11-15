@@ -2,225 +2,166 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORBIT｜探索與創作</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORBIT 2.0｜研究平台</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 
 <style>
 :root {
-  --bg: #080d18;
-  --card: #141d2e;
-  --text: #f3f7ff;
-  --muted: #9caec6;
+  --bg: #090e1b;
+  --panel: #151e30;
+  --fg: #edf5ff;
+  --sub: #a5b7cd;
   --accent: #72e6bc;
 }
 
-* {
-  box-sizing: border-box;
+body.light {
+  --bg: #f3f7fb;
+  --panel: #ffffff;
+  --fg: #142238;
+  --sub: #566b80;
+  --accent: #087c60;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: Arial, "Noto Sans TC", sans-serif;
   background: var(--bg);
-  color: var(--text);
-  line-height: 1.8;
-}
-
-body.light {
-  --bg: #f5f8fc;
-  --card: #ffffff;
-  --text: #182335;
-  --muted: #61718a;
-  --accent: #16876c;
+  color: var(--fg);
+  font: 16px/1.6 system-ui, sans-serif;
 }
 
 header {
   position: sticky;
   top: 0;
-  z-index: 10;
   background: var(--bg);
-  border-bottom: 1px solid #66778844;
-  padding: 16px 6%;
+  border-bottom: 1px solid #7893a544;
+  z-index: 3;
+  padding: 12px 5%;
   display: flex;
-  justify-content: space-between;
+  gap: 16px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--accent);
-}
+strong, .accent { color: var(--accent); }
 
 nav {
   display: flex;
-  gap: 18px;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-nav a {
-  color: var(--text);
-  text-decoration: none;
-}
-
-nav a:hover {
-  color: var(--accent);
+button, input, textarea, select {
+  font: inherit;
+  border-radius: 10px;
+  padding: 9px 12px;
 }
 
 button {
-  cursor: pointer;
-  border: none;
-  border-radius: 12px;
-  padding: 10px 16px;
   background: var(--accent);
-  color: #07131a;
-  font-weight: bold;
+  color: #08221b;
+  border: 0;
+  cursor: pointer;
 }
 
-section {
-  padding: 90px 8%;
-  max-width: 1200px;
+nav button {
+  background: transparent;
+  color: var(--fg);
+}
+
+nav button.active {
+  background: var(--accent);
+  color: #08221b;
+}
+
+main {
+  max-width: 1100px;
   margin: auto;
+  padding: 28px 5% 80px;
 }
 
-.hero {
-  min-height: 85vh;
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
+.view { display: none; }
+.view.active { display: block; }
 
-.hero-text {
-  flex: 1;
-}
-
-.tag {
-  color: var(--accent);
-  letter-spacing: 3px;
-}
-
-h1 {
-  font-size: clamp(38px, 7vw, 76px);
-  line-height: 1.3;
-}
-
-h2 {
-  font-size: 34px;
-}
-
-p {
-  color: var(--muted);
-}
-
-.planet {
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 25%,
-    #d4ffe8,
-    #72e6bc 25%,
-    #238b87 55%,
-    #12264c 85%);
-  box-shadow:
-    0 0 60px #72e6bc55,
-    0 0 120px #72e6bc22;
-  animation: float 5s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-.cards {
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
 }
 
 .card {
-  background: var(--card);
-  padding: 28px;
-  border-radius: 20px;
-  border: 1px solid #66778833;
-  transition: transform .3s;
+  background: var(--panel);
+  border: 1px solid #7893a533;
+  padding: 20px;
+  border-radius: 18px;
+  margin: 12px 0;
 }
 
-.card:hover {
-  transform: translateY(-8px);
+.card h3 { margin-top: 0; }
+
+p, .muted { color: var(--sub); }
+
+input, textarea, select {
+  background: var(--panel);
+  border: 1px solid #7893a577;
+  color: var(--fg);
+  width: 100%;
+  margin: 6px 0;
 }
 
-.card h3 {
+textarea { min-height: 180px; }
+label { display: block; margin-top: 12px; }
+
+h1 {
+  font-size: clamp(32px, 6vw, 56px);
+  line-height: 1.2;
+}
+
+h2 { margin-top: 12px; }
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.row > * { flex: 1; }
+.row button { flex: 0 0 auto; }
+
+.danger { background: #e58c91; }
+
+.article { cursor: pointer; }
+.article:hover { outline: 1px solid var(--accent); }
+
+.preview { overflow-wrap: anywhere; }
+.preview pre { overflow: auto; }
+
+canvas { max-width: 100%; }
+
+#notice {
+  min-height: 24px;
   color: var(--accent);
 }
 
-input, textarea {
-  width: 100%;
-  padding: 14px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: 1px solid #66778855;
-  background: var(--card);
-  color: var(--text);
-}
-
-textarea {
-  min-height: 130px;
-}
-
-footer {
-  text-align: center;
-  padding: 35px;
-  border-top: 1px solid #66778844;
-  color: var(--muted);
-}
-
-.menu-btn {
-  display: none;
-}
-
-@media(max-width: 700px) {
-  .hero {
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-  }
-
-  .planet {
-    width: 190px;
-    height: 190px;
-  }
-
-  .menu-btn {
-    display: block;
-  }
+@media (max-width: 600px) {
+  header { padding: 12px 4%; }
 
   nav {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: var(--card);
-    padding: 20px;
-    flex-direction: column;
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
   }
 
-  nav.open {
-    display: flex;
-  }
-
-  section {
-    padding: 65px 7%;
-  }
+  nav button { white-space: nowrap; }
+  main { padding: 20px 5%; }
 }
 </style>
 </head>
@@ -228,160 +169,754 @@ footer {
 <body>
 
 <header>
-  <div class="logo">◎ ORBIT</div>
+  <strong>◎ ORBIT 2.0</strong>
 
   <nav id="nav">
-    <a href="#home">首頁</a>
-    <a href="#about">關於</a>
-    <a href="#projects">作品</a>
-    <a href="#contact">聯絡</a>
+    <button data-view="home" class="active">首頁</button>
+    <button data-view="library">知識庫</button>
+    <button data-view="editor">編輯器</button>
+    <button data-view="lab">實驗室</button>
+    <button data-view="backup">備份</button>
   </nav>
 
-  <div>
-    <button id="themeBtn">☀ / ☾</button>
-    <button class="menu-btn" id="menuBtn">☰</button>
-  </div>
+  <button id="theme">☀ / ☾</button>
 </header>
 
 <main>
+<div id="notice" role="status"></div>
 
-<section class="hero" id="home">
-  <div class="hero-text">
-    <div class="tag">A SPACE FOR IDEAS</div>
+<section id="home" class="view active">
+  <p class="accent">A SPACE FOR IDEAS</p>
 
-    <h1>
-      讓每個想法，<br>
-      都有自己的軌道。
-    </h1>
-
-    <p>
-      這是一個關於探索、研究與創作的網站。
-      整理想法、分享作品，
-      讓新的可能慢慢發生。
-    </p>
-
-    <a href="#projects">
-      <button>探索作品 →</button>
-    </a>
-  </div>
-
-  <div class="planet"></div>
-</section>
-
-<section id="about">
-  <div class="tag">ABOUT</div>
-  <h2>從好奇心出發</h2>
+  <h1>讓研究與創作<br>擁有自己的軌道。</h1>
 
   <p>
-    ORBIT 是一個自由探索的空間。
-    在這裡，研究、創作與想像可以彼此連結。
+    ORBIT 2.0：筆記、數學公式、搜尋、
+    互動繪圖與物理模擬。
   </p>
 
-  <div class="cards">
+  <div class="grid">
     <div class="card">
-      <h3>✦ 研究</h3>
-      <p>探索問題，尋找新的理解方式。</p>
+      <h3>📚 知識庫</h3>
+      <p>搜尋、閱讀、分類自己的文章。</p>
+      <button data-go="library">開始閱讀 →</button>
     </div>
 
     <div class="card">
-      <h3>⌘ 創作</h3>
-      <p>把抽象的想法轉化為具體作品。</p>
+      <h3>✍️ 文章編輯</h3>
+      <p>Markdown 與 LaTeX 公式預覽。</p>
+      <button data-go="editor">建立文章 →</button>
     </div>
 
     <div class="card">
-      <h3>∞ 可能</h3>
-      <p>保持開放，讓不同領域相互連結。</p>
+      <h3>🧪 互動實驗室</h3>
+      <p>函數繪圖與單擺模擬。</p>
+      <button data-go="lab">開啟工具 →</button>
     </div>
+  </div>
+
+  <div class="card">
+    <b>目前版本說明</b>
+    <p>
+      資料僅儲存在目前瀏覽器的 localStorage；
+      其他訪客不會看到你新增的文章。
+      尚未提供帳號、真正的權限驗證或雲端同步。
+      請定期匯出備份。
+    </p>
   </div>
 </section>
 
-<section id="projects">
-  <div class="tag">PROJECTS</div>
-  <h2>探索作品</h2>
+<section id="library" class="view">
+  <h2>知識庫</h2>
 
-  <div class="cards">
+  <input id="search" placeholder="搜尋標題、內容或分類">
 
-    <div class="card">
-      <h3>01｜物理研究</h3>
-      <p>
-        從經典力學到現代物理，
-        探索自然世界的基本規律。
-      </p>
-    </div>
+  <div id="articles"></div>
 
-    <div class="card">
-      <h3>02｜數學探索</h3>
-      <p>
-        研究抽象結構，
-        尋找不同數學概念之間的關聯。
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>03｜創意專案</h3>
-      <p>
-        將想法轉化為實驗、
-        程式與互動作品。
-      </p>
-    </div>
-
+  <div id="reader" class="card" hidden>
+    <button id="closeReader">← 返回列表</button>
+    <h2 id="readerTitle"></h2>
+    <div id="readerBody" class="preview"></div>
+    <button id="editCurrent">編輯這篇</button>
   </div>
 </section>
 
-<section id="contact">
-  <div class="tag">CONTACT</div>
-  <h2>保持聯繫</h2>
+<section id="editor" class="view">
+  <h2>文章編輯器</h2>
 
-  <p>有任何想法，都歡迎留下訊息。</p>
+  <p>
+    支援 Markdown；行內公式用
+    <code>$...$</code>，
+    獨立公式用 <code>$$...$$</code>。
+  </p>
 
-  <form id="contactForm">
-    <input id="name" placeholder="你的名字" required>
-    <input id="email" type="email" placeholder="電子郵件" required>
-    <textarea id="message" placeholder="想說的話" required></textarea>
-    <button type="submit">產生訊息</button>
-  </form>
+  <input type="hidden" id="articleId">
 
-  <p id="result"></p>
+  <label>
+    標題
+    <input id="title" placeholder="例如：諾特定理">
+  </label>
+
+  <label>
+    分類
+    <input id="category" placeholder="例如：理論物理">
+  </label>
+
+  <label>
+    內文
+    <textarea id="body"
+      placeholder="# 我的筆記&#10;&#10;$$E=mc^2$$"></textarea>
+  </label>
+
+  <div class="row">
+    <button id="save">儲存文章</button>
+    <button id="new">清空／新增</button>
+    <button id="delete" class="danger">刪除目前文章</button>
+  </div>
+
+  <h3>即時預覽</h3>
+  <div id="preview" class="card preview"></div>
 </section>
 
+<section id="lab" class="view">
+  <h2>互動實驗室</h2>
+
+  <div class="card">
+    <h3>函數繪圖</h3>
+
+    <p>
+      輸入 JavaScript 數學運算式，例如
+      <code>Math.sin(x)</code>、
+      <code>x*x</code>、
+      <code>Math.exp(-x*x)</code>。
+    </p>
+
+    <input id="function" value="Math.sin(x)" aria-label="函數">
+    <button id="plot">繪圖</button>
+
+    <canvas id="plotCanvas"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>單擺模擬（小角度近似）</h3>
+
+    <label>
+      擺長 L（公尺）
+      <input id="length" type="number"
+        min="0.1" max="100" step="0.1" value="1">
+    </label>
+
+    <label>
+      初始角度（度）
+      <input id="angle" type="number"
+        min="-30" max="30" value="15">
+    </label>
+
+    <button id="simulate">更新模擬</button>
+
+    <p id="period"></p>
+
+    <canvas id="pendulum" width="700" height="320"></canvas>
+  </div>
+</section>
+
+<section id="backup" class="view">
+  <h2>備份與還原</h2>
+
+  <div class="card">
+    <p>
+      將所有文章下載為 JSON，或匯入先前備份。
+      匯入會取代目前的文章。
+    </p>
+
+    <button id="export">匯出 JSON</button>
+
+    <label>
+      匯入 JSON
+      <input id="import" type="file"
+        accept=".json,application/json">
+    </label>
+  </div>
+</section>
 </main>
 
-<footer>
-  © 2026 ORBIT — Stay curious.
-</footer>
-
 <script>
-const themeBtn = document.getElementById("themeBtn");
-const menuBtn = document.getElementById("menuBtn");
-const nav = document.getElementById("nav");
+const KEY = "orbit20_articles";
 
-themeBtn.addEventListener("click", function() {
-  document.body.classList.toggle("light");
-});
+let articles = [];
 
-menuBtn.addEventListener("click", function() {
-  nav.classList.toggle("open");
-});
+try {
+  const data = JSON.parse(localStorage.getItem(KEY) || "[]");
+  if (Array.isArray(data)) articles = data;
+} catch {}
 
-document.querySelectorAll("nav a").forEach(function(link) {
-  link.addEventListener("click", function() {
-    nav.classList.remove("open");
+let current = null;
+let plotChart = null;
+
+const $ = id => document.getElementById(id);
+
+function notify(message) {
+  $("notice").textContent = message;
+  setTimeout(() => {
+    if ($("notice").textContent === message) {
+      $("notice").textContent = "";
+    }
+  }, 4500);
+}
+
+function persist() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(articles));
+    return true;
+  } catch {
+    notify("儲存失敗：瀏覽器空間不足或禁止儲存");
+    return false;
+  }
+}
+
+function show(id) {
+  document.querySelectorAll(".view").forEach(el => {
+    el.classList.toggle("active", el.id === id);
   });
+
+  document.querySelectorAll("[data-view]").forEach(el => {
+    el.classList.toggle("active", el.dataset.view === id);
+  });
+
+  if (id === "library") renderList();
+
+  window.scrollTo(0, 0);
+}
+
+document.querySelectorAll("[data-view]").forEach(button => {
+  button.onclick = () => show(button.dataset.view);
 });
 
-document.getElementById("contactForm")
-.addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const message = document.getElementById("message").value;
-
-  const result = document.getElementById("result");
-
-  result.textContent =
-    "訊息已產生：" + name + "（" + email + "）：" + message;
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.onclick = () => show(button.dataset.go);
 });
+
+$("theme").onclick = () => {
+  document.body.classList.toggle("light");
+};
+
+// Markdown 預覽與基本 HTML 清理
+function safeMarkdown(source) {
+  const html = marked.parse(source);
+  const template = document.createElement("template");
+  template.innerHTML = html;
+
+  template.content
+    .querySelectorAll("script,iframe,object,embed,form,style,link,svg,math")
+    .forEach(node => node.remove());
+
+  template.content.querySelectorAll("*").forEach(node => {
+    for (const attr of [...node.attributes]) {
+      const name = attr.name;
+      const value = attr.value;
+
+      if (
+        name.startsWith("on") ||
+        name === "srcdoc" ||
+        (
+          (name === "href" || name === "src") &&
+          !/^(https?:|mailto:|#|\/)/i.test(value)
+        )
+      ) {
+        node.removeAttribute(name);
+      }
+    }
+  });
+
+  return template.innerHTML;
+}
+
+function typeset(element) {
+  if (window.renderMathInElement) {
+    renderMathInElement(element, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false }
+      ],
+      throwOnError: false
+    });
+  }
+}
+
+function renderPreview() {
+  const element = $("preview");
+  element.innerHTML = safeMarkdown($("body").value);
+  typeset(element);
+}
+
+$("body").oninput = renderPreview;
+
+function clearEditor() {
+  $("articleId").value = "";
+  $("title").value = "";
+  $("category").value = "";
+  $("body").value = "";
+  renderPreview();
+}
+
+$("new").onclick = clearEditor;
+
+// 儲存文章
+$("save").onclick = () => {
+  const title = $("title").value.trim();
+  const body = $("body").value;
+
+  if (!title) {
+    notify("請先輸入標題");
+    return;
+  }
+
+  const id = $("articleId").value ||
+    String(Date.now()) + "-" + Math.random().toString(36).slice(2);
+
+  const article = {
+    id,
+    title,
+    category: $("category").value.trim(),
+    body,
+    updated: new Date().toISOString()
+  };
+
+  articles = articles.filter(a => a.id !== id);
+  articles.unshift(article);
+
+  if (persist()) {
+    $("articleId").value = id;
+    notify("已儲存在這個瀏覽器");
+  }
+};
+
+// 刪除文章
+$("delete").onclick = () => {
+  const id = $("articleId").value;
+
+  if (!id) {
+    notify("尚未選擇文章");
+    return;
+  }
+
+  if (confirm("確定刪除這篇文章？")) {
+    articles = articles.filter(a => a.id !== id);
+
+    if (persist()) {
+      clearEditor();
+      notify("已刪除");
+    }
+  }
+};
+
+// 知識庫
+function renderList() {
+  const query = $("search").value.toLowerCase();
+
+  const list = articles.filter(article =>
+    (
+      article.title + " " +
+      article.category + " " +
+      article.body
+    ).toLowerCase().includes(query)
+  );
+
+  $("articles").replaceChildren();
+  $("articles").hidden = false;
+  $("reader").hidden = true;
+
+  const count = document.createElement("p");
+  count.textContent = `共 ${list.length} 篇文章`;
+  $("articles").append(count);
+
+  list.forEach(article => {
+    const element = document.createElement("div");
+    element.className = "card article";
+
+    const heading = document.createElement("h3");
+    heading.textContent = article.title;
+
+    const description = document.createElement("p");
+    description.textContent =
+      (article.category || "未分類") +
+      " · " +
+      new Date(article.updated).toLocaleDateString("zh-TW");
+
+    element.append(heading, description);
+    element.onclick = () => readArticle(article.id);
+
+    $("articles").append(element);
+  });
+}
+
+$("search").oninput = renderList;
+
+function readArticle(id) {
+  const article = articles.find(a => a.id === id);
+  if (!article) return;
+
+  current = id;
+
+  $("articles").hidden = true;
+  $("reader").hidden = false;
+  $("readerTitle").textContent = article.title;
+  $("readerBody").innerHTML = safeMarkdown(article.body);
+
+  typeset($("readerBody"));
+}
+
+$("closeReader").onclick = () => {
+  $("articles").hidden = false;
+  $("reader").hidden = true;
+};
+
+$("editCurrent").onclick = () => {
+  const article = articles.find(a => a.id === current);
+  if (!article) return;
+
+  $("articleId").value = article.id;
+  $("title").value = article.title;
+  $("category").value = article.category;
+  $("body").value = article.body;
+
+  renderPreview();
+  show("editor");
+};
+
+// JSON 備份
+$("export").onclick = () => {
+  const blob = new Blob(
+    [JSON.stringify(articles, null, 2)],
+    { type: "application/json" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "orbit-backup.json";
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+
+$("import").onchange = async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    const data = JSON.parse(await file.text());
+
+    if (
+      !Array.isArray(data) ||
+      !data.every(a =>
+        a &&
+        typeof a.id === "string" &&
+        typeof a.title === "string" &&
+        typeof a.body === "string" &&
+        typeof a.category === "string" &&
+        typeof a.updated === "string"
+      )
+    ) {
+      throw Error("格式不正確");
+    }
+
+    if (confirm(`匯入 ${data.length} 篇文章並覆蓋目前資料？`)) {
+      const old = articles;
+      articles = data;
+
+      if (!persist()) {
+        articles = old;
+      } else {
+        notify("匯入成功");
+      }
+    }
+  } catch (error) {
+    notify("匯入失敗：" + error.message);
+  }
+
+  event.target.value = "";
+};
+
+// 數學運算式解析器
+// 不使用 eval 或 Function 建構器
+function tokenize(source) {
+  const regex =
+    /\s*(Math\.[a-zA-Z]+|\d+(?:\.\d+)?(?:[eE][+-]?\d+)?|x|[()+*/^,-])/gy;
+
+  const tokens = [];
+  let position = 0;
+
+  while (position < source.length) {
+    regex.lastIndex = position;
+    const match = regex.exec(source);
+
+    if (!match) throw Error("不支援的字元");
+
+    tokens.push(match[1]);
+    position = regex.lastIndex;
+  }
+
+  return tokens;
+}
+
+function compile(source) {
+  const tokens = tokenize(source);
+  let index = 0;
+
+  const functions = {
+    sin: Math.sin,
+    cos: Math.cos,
+    tan: Math.tan,
+    exp: Math.exp,
+    log: Math.log,
+    sqrt: Math.sqrt,
+    abs: Math.abs,
+    asin: Math.asin,
+    acos: Math.acos,
+    atan: Math.atan
+  };
+
+  function primary() {
+    const token = tokens[index++];
+
+    if (token === "(") {
+      const result = expression();
+
+      if (tokens[index++] !== ")") {
+        throw Error("括號不匹配");
+      }
+
+      return result;
+    }
+
+    if (token === "x") return x => x;
+
+    if (token === "Math.PI") return () => Math.PI;
+    if (token === "Math.E") return () => Math.E;
+
+    if (/^\d/.test(token || "")) {
+      return () => Number(token);
+    }
+
+    if (token?.startsWith("Math.")) {
+      const fn = functions[token.slice(5)];
+
+      if (!fn || tokens[index++] !== "(") {
+        throw Error("未知函數");
+      }
+
+      const argument = expression();
+
+      if (tokens[index++] !== ")") {
+        throw Error("括號不匹配");
+      }
+
+      return x => fn(argument(x));
+    }
+
+    throw Error("運算式錯誤");
+  }
+
+  function unary() {
+    if (tokens[index] === "-") {
+      index++;
+      const fn = unary();
+      return x => -fn(x);
+    }
+
+    if (tokens[index] === "+") {
+      index++;
+      return unary();
+    }
+
+    return power();
+  }
+
+  function power() {
+    let left = primary();
+
+    if (tokens[index] === "^") {
+      index++;
+      const right = unary();
+      const previous = left;
+
+      left = x => Math.pow(previous(x), right(x));
+    }
+
+    return left;
+  }
+
+  function term() {
+    let left = unary();
+
+    while (["*", "/"].includes(tokens[index])) {
+      const operator = tokens[index++];
+      const right = unary();
+      const previous = left;
+
+      left = x =>
+        operator === "*"
+          ? previous(x) * right(x)
+          : previous(x) / right(x);
+    }
+
+    return left;
+  }
+
+  function expression() {
+    let left = term();
+
+    while (["+", "-"].includes(tokens[index])) {
+      const operator = tokens[index++];
+      const right = term();
+      const previous = left;
+
+      left = x =>
+        operator === "+"
+          ? previous(x) + right(x)
+          : previous(x) - right(x);
+    }
+
+    return left;
+  }
+
+  const result = expression();
+
+  if (index !== tokens.length) {
+    throw Error("多餘的符號");
+  }
+
+  return result;
+}
+
+// 函數繪圖
+$("plot").onclick = () => {
+  try {
+    const fn = compile($("function").value);
+    const points = [];
+
+    for (let i = -100; i <= 100; i++) {
+      const x = i / 10;
+      const y = fn(x);
+
+      points.push({
+        x,
+        y: Number.isFinite(y) ? y : null
+      });
+    }
+
+    if (plotChart) plotChart.destroy();
+
+    plotChart = new Chart($("plotCanvas"), {
+      type: "line",
+
+      data: {
+        datasets: [{
+          label: "f(x)",
+          data: points,
+          borderColor: "#72e6bc",
+          pointRadius: 0,
+          spanGaps: false
+        }]
+      },
+
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            type: "linear",
+            min: -10,
+            max: 10
+          },
+          y: {}
+        }
+      }
+    });
+
+    notify("繪圖完成");
+  } catch (error) {
+    notify("函數錯誤：" + error.message);
+  }
+};
+
+// 單擺模擬
+let animation = 0;
+
+function startPendulum() {
+  cancelAnimationFrame(animation);
+
+  const L = Number($("length").value);
+  const degrees = Number($("angle").value);
+
+  if (
+    !Number.isFinite(L) ||
+    L < 0.1 ||
+    L > 100 ||
+    !Number.isFinite(degrees) ||
+    Math.abs(degrees) > 30
+  ) {
+    notify("請輸入有效參數：L 介於 0.1–100，角度 ±30°");
+    return;
+  }
+
+  const omega = Math.sqrt(9.81 / L);
+  const period = 2 * Math.PI / omega;
+
+  $("period").textContent =
+    `週期約 ${period.toFixed(3)} 秒（小角度近似）`;
+
+  const canvas = $("pendulum");
+  const ctx = canvas.getContext("2d");
+  const start = performance.now();
+
+  function frame(now) {
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const theta =
+      degrees * Math.PI / 180 *
+      Math.cos(omega * (now - start) / 1000);
+
+    const originX = width / 2;
+    const originY = 35;
+
+    const radius = Math.min(230, 100 + L * 35);
+
+    const x = originX + radius * Math.sin(theta);
+    const y = originY + radius * Math.cos(theta);
+
+    ctx.clearRect(0, 0, width, height);
+
+    ctx.strokeStyle = "#72e6bc";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    ctx.fillStyle = "#72e6bc";
+    ctx.beginPath();
+    ctx.arc(x, y, 15, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.fillStyle = "#9aadc3";
+    ctx.fillRect(originX - 35, originY - 5, 70, 8);
+
+    animation = requestAnimationFrame(frame);
+  }
+
+  animation = requestAnimationFrame(frame);
+}
+
+$("simulate").onclick = startPendulum;
+
+// 初始化
+renderPreview();
+$("plot").click();
+startPendulum();
 </script>
 
 </body>
